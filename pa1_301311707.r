@@ -30,11 +30,16 @@ ss_4 <- sil_score(4)
 print(ss_4)
 
 ##Task 4
+k.wine <- kmeans(wine.data, centers = 4)
 cluster <- k.wine$cluster
 
 #Alcohol vs Flavanoids
+#Mg vs OD
+#Phenols vs Flavanoids
+#Flavanoids vs Proline
+#OD vs Proline
 
-scat <- ggplot(data = wine, aes(x=Acl, y=Proline, color=cluster)) + geom_point()
+scat <- ggplot(data = wine, aes(x=OD, y= Proline, color=cluster)) + geom_point()
 plot(scat)
 
 ##Task 5 
@@ -43,6 +48,8 @@ cluster_range = c(2:10)
 for(i in 2:10){
   ss_list[i-1] <- sil_score(i)
 }
+print(ss_list)
+
 plot(cluster_range, ss_list, main="Silhouette score vs # of Clusters", xlab="# of clusters"
      , ylab="silhouette score")
 
@@ -65,6 +72,11 @@ new.ha <- cutree(ha,3)
 new.hs <- cutree(hs,3)
 
 ##Task 8
+k.best <- kmeans(wine.data, centers = 3)
+
+sim_k <- cluster_similarity(wine$Wine, k.best$cluster, similarity = "rand")
+print(sim_k)
+
 sim_c <- cluster_similarity(wine$Wine, new.hc, similarity = "rand")
 print(sim_c)
 
